@@ -14,6 +14,8 @@
             <input id="rand" type="number" placeholder="50" min="0" max="100">
             <label>Type (-1 for random)</label>
             <input id="type" type="number" min="-1" max="1">
+            <img id="s1" value="off" src="pic/bfalse.png" class="setting" onclick="Toggle(id)">
+            <label>Disable place words</label>
         </div><br>
         <div>
             <label>Change Name</label>
@@ -23,6 +25,7 @@
                 <option>Verbs</option>
                 <option>Adjectives</option>
                 <option>Insults</option>
+                <option>Place</option>
             </select>
             <input type="text" id="editarr">
             <button onclick="ApplyArray()">Apply</button>
@@ -82,7 +85,8 @@
         var adj = ["litt", "stor", "feit", "glidende", "naken", "smal", "idiotisk", "gammel", "ung", "tykk", "inspirerende", "irriterende", "dum", "rar", "sexy"];
         var insult = ["noobtaktikk", "tjukkas", "noob", "shanoob", "shalube", "noobfood", "småbarn", "tjukkaser"];//objects, bad things etc.
         var person = ["du", "det", "richard", "de", "han", "hun", "hen"];
-        var settings = [0];
+        var place = ["på", "under", "over", "nærme", "vekk", "til"]
+        var settings = [0, 0];
         var output = document.getElementById("output")
         var starttext = output.innerHTML;
         document.getElementById("type").value = -1;
@@ -100,6 +104,9 @@
                 case "Insults":
                     document.getElementById("editarr").value = insult;
                     break;
+                case "Place":
+                    document.getElementById("editarr").value = place;
+                    break;
             }
         }
         function ApplyArray(){
@@ -112,6 +119,9 @@
                     break;
                 case "Insults":
                     insult = document.getElementById("editarr").value.replace(" ", "").split(",");
+                    break;
+                case "Place":
+                    place = document.getElementById("editarr").value.replace(" ", "").split(",");
                     break;
             }
         }
@@ -208,6 +218,7 @@
                     var names = GetName()
                     input += names + " ";
                     input += verb[randomNumber(0, verb.length-1)] + " ";
+                    if(!checksetting(1) && randomNumber(0,100)<randomizerpr) input += place[randomNumber(0, place.length-1)] + " "
                     if(randomNumber(0,100)<randomizerpr) input += adj[randomNumber(0, adj.length-1)] + " "
                     input += insult[randomNumber(0, insult.length-1)] + ".";
                     break;
@@ -215,6 +226,7 @@
                     var names = GetName()
                     input += names + " ";
                     input += verb[randomNumber(0, verb.length-1)] + " ";
+                    if(!checksetting(1) && randomNumber(0,150)<randomizerpr) input += place[randomNumber(0, place.length-1)] + " "
                     if(randomNumber(0,100)<randomizerpr) input += adj[randomNumber(0, adj.length-1)] + " "
                     input += insult[randomNumber(0, insult.length-1)] + ".";
                     input += " " + adj[randomNumber(0, adj.length-1)] + ".";
